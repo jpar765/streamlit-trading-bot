@@ -74,8 +74,8 @@ def macd(series, fast=7, slow=49, signal=7):
     slow_ema = series.ewm(span=slow, adjust=False).mean()
     macd_line = fast_ema - slow_ema
     signal_line = macd_line.ewm(span=signal, adjust=False).mean()
-    return macd_line, signal_line, macd_line - signal_line
-
+    return macd_line.values, signal_line.values, (macd_line - signal_line).values
+    
 def rsi(series, n=14):
     delta = series.diff()
     up = delta.clip(lower=0)
@@ -135,7 +135,7 @@ def generate_signal(df):
         rsi10 = rsi(closes, 10).iloc[-1]
 
     ma_aligned = (ma14 > ma49) and (ma49 > ma105) and (ma105 > ma203)
-    macd_bull = macd_line.iloc[-1] > macd_signal.iloc[-1]
+    macd_bull = macd_line[-1] > macd_signal[-1]
     squeeze_on = ttm_squeeze(closes, highs, lows)
     rsi_safe = rsi10 < 70
     advanced_buy = ma_aligned and macd_bull and squeeze_on and rsi_safe
