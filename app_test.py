@@ -47,7 +47,7 @@ TAKE_PROFIT_PCT = 0.10
 # ------------------------------
 def fetch_bars(symbol, days=210):
     data_client = StockHistoricalDataClient(ALPACA_KEY, ALPACA_SECRET)
-    end = datetime.now()
+    end = datetime.now() - timedelta(minutes=10)
     start = end - timedelta(days=days+10)
     request_params = StockBarsRequest(
         symbol_or_symbols=[symbol],
