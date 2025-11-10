@@ -195,7 +195,7 @@ try:
     col1, col2, col3 = st.columns(3)
     col1.metric("Equity", f"${float(account.equity):,.2f}")
     col2.metric("Cash", f"${float(account.cash):,.2f}")
-    col3.metric("Positions", len([p for p in trading_client.list_positions()]))
+    col3.metric("Positions", len(trading_client.get_all_positions))
 except Exception as e:
     st.warning("Account info not available: " + str(e))
 
